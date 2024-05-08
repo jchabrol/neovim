@@ -1,0 +1,18 @@
+{
+  "languageserver": {
+    "robotframework_ls": {
+        "command": "robotframework_ls",
+        "filetypes": ["robot"],
+        "settings": {
+          "robot.lint.robocop.enabled":true,
+          "robot.pythonpath":[
+            "${workspaceFolder}/keywords",
+            "${workspaceFolder}/resource",
+            "${workspaceFolder}/library"
+          ],
+          "robot.loadVariablesFromArgumentsFile": "${workspaceFolder}/variables.py"
+
+        }
+    }
+  }
+}
