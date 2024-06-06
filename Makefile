@@ -17,10 +17,7 @@ help:
 add-nvim-conf:
 	ln -s $$(pwd)/nvim $(TARGET)/.config/nvim
 
-install-vim-plug:
-	curl -fLo $(TARGET)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 .PHONY: install
 #: Install everything
-install: add-nvim-conf install-vim-plug
+install: add-nvim-conf 
 	@echo Making $@…
