@@ -50,9 +50,10 @@ vim.api.nvim_create_autocmd("FileType",{
 })
 
 -- Enable backup
-vim.o.backup = true
-vim.o.backupdir = "~/.nvim/backup"
-vim.o.directory = "~/.nvim/swap"
-vim.o.undodir = "~/.nvim/undo"
-vim.o.writebackup = true
-vim.o.backupcopy = "yes"
+local prefix = vim.fn.expand("~/.nvim")
+vim.opt.backup = true
+vim.opt.backupdir = { prefix .. "/backup//"}
+vim.opt.directory = { prefix .. "/swap//"}
+vim.opt.undodir = { prefix .. "/undo//"}
+vim.opt.writebackup = true
+vim.opt.backupcopy = "yes"

@@ -2,17 +2,21 @@
   "languageserver": {
     "robotframework_ls": {
         "command": "robotframework_ls",
-        "filetypes": ["robot"],
+        "filetypes": ["robot","resource"],
         "settings": {
           "robot.lint.robocop.enabled":true,
+          "robot.codeFormater": "robotidy",
           "robot.pythonpath":[
-            "${workspaceFolder}/keywords",
-            "${workspaceFolder}/resource",
-            "${workspaceFolder}/library"
+            "${workspaceFolder}/",
           ],
-          "robot.loadVariablesFromArgumentsFile": "${workspaceFolder}/variables.py"
-
+        },
+        "trace.server": "verbose",
+        "initializationOptions": {
+          "cacheDirectory": "/tmp/robotframework_ls"
         }
     }
-  }
+  },
+  "ruff.enableExperimentalFormatter": true,
+  "ruff.autoFixOnSave": true
 }
+

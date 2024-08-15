@@ -1,30 +1,9 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
-vim.g.do_filetype_lua = 1
-
---Global shortcut parameters
---plugin shortcut will be managed in plugins configuration
--- LEADER SHORTCUTS
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
-vim.g.maplocalleader = "\\" -- Same for `maplocalleader`
+require("configurations.lazy")
 
 -- Quit
 vim.api.nvim_set_keymap("n","<LEADER>q",":q<CR>",{noremap = true});
-
 -- Save current buffer
 vim.api.nvim_set_keymap("n","<LEADER>w",":w<CR>",{noremap = true});
-
 -- Save and Exit
 vim.api.nvim_set_keymap("n","<LEADER>x",":x<CR>",{noremap = true});
 -- Select everything
@@ -33,11 +12,6 @@ vim.api.nvim_set_keymap("n","<LEADER>v","V`]",{noremap = true});
 vim.api.nvim_set_keymap("n","<LEADER>,",":noh<CR>",{noremap = true});
 -- Put nvim in background
 vim.api.nvim_set_keymap("n","<LEADER>z","<C-z>",{noremap = true});
-
--- Refresh vim config from ~/.vimrc
-vim.api.nvim_set_keymap("n","<LEADER>sv",":source ~/.config/nvim/init.lua<CR>",{noremap = true});
--- Edit vimrc in a vertical split
-vim.api.nvim_set_keymap("n","<leader>ev",":vsplit ~/.config/nvim/init.lua<CR>",{noremap = true});
 
 -- Move around windows
 vim.api.nvim_set_keymap("n","<LEADER>h","<C-w>h",{noremap = true});
@@ -59,9 +33,21 @@ vim.api.nvim_set_keymap("n","<F12>",":setf robot<CR>",{noremap = true});
 -- Force write
 vim.keymap.set("c","w!!","SudaWrite");
 
-require("lazy").setup("plugins")
+-- remove empty space
+vim.api.nvim_set_keymap("n","<LEADER>sw",":StripWhitespace<CR>",{noremap = true});
+
+-- Activate lualine tool bar management
 require('lualine').setup()
 
+-- Activate catppuccin theme
+require('catppuccin').setup({
+  background = {
+    dark = "mocha",
+  },
+})
+vim.cmd.colorscheme "catppuccin"
+
+-- nvim tree configuration
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -87,16 +73,12 @@ require("nvim-tree").setup{
 }
 
 local function open_nvim_tree()
--- open the tree
-  require("nvim-tree.api").tree.open()
+  -- open the tree
+  require("nvim-tree.api").tree.open({current_window = true })
 end
-
-
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
--- remove empty space
-vim.api.nvim_set_keymap("n","<LEADER>sw",":StripWhitespace<CR>",{noremap = true});
 
 -- Automatically refresh buffer on external changes
 vim.o.autoread = true
@@ -105,15 +87,59 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
   pattern = { "*" },
 })
 
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+
+require("mason-lspconfig").setup {
+  ensure_installed = {"markdown_oxide","robotframework_ls","biome","yamlls","dockerls","ruff_lsp"}
+}
+
 require("configurations.coc")
 require("configurations.tree-sitter")
 require("configurations.options")
 
-vim.g.markdown_fenced_languages = "['html', 'javascript', 'bash=sh']"
-
-vim.api.nvim_create_autocmd({"BufWritePost"},{
-  pattern = {"*.py"},
-  command = "call flake8#Flake8()",
-})
-
+-- MarkdownPreview
 vim.g.vim_markdown_preview_github = 1
+vim.api.nvim_set_keymap("n","<LEADER>m",":MarkdownPreview<CR>",{noremap = true});
+vim.api.nvim_set_keymap("n","<LEADER>ms",":MarkdownPreviewStop<CR>",{noremap = true});
+vim.api.nvim_set_keymap("n","<LEADER>mt",":MarkdownPreviewToggle<CR>",{noremap = true});
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fs', builtin.grep_string, {})
+
+config = function()
+  require('textcase').setup {}
+  require('telescope').load_extension('textcase')
+  vim.api.nvim_set_keymap('n', 'ga.', '<cmd>TextCaseOpenTelescope<CR>', { desc = "Telescope" })
+  vim.api.nvim_set_keymap('v', 'ga.', "<cmd>TextCaseOpenTelescope<CR>", { desc = "Telescope" })
+end
+
+-- LSP configurations
+require('lspconfig').robotframework_ls.setup{}
+require('lspconfig').markdown_oxide.setup{}
+require('lspconfig').biome.setup{}
+require('lspconfig').yamlls.setup{}
+require('lspconfig').dockerls.setup{}
+
+-- Configure `ruff-lsp`.
+-- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
+-- For the default config, along with instructions on how to customize the settings
+require('lspconfig').ruff_lsp.setup {
+  init_options = {
+    settings = {
+      -- Any extra CLI arguments for `ruff` go here.
+      args = {},
+    }
+  }
+}
