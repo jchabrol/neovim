@@ -105,12 +105,7 @@ require("configurations.coc")
 require("configurations.tree-sitter")
 require("configurations.options")
 
--- MarkdownPreview
-vim.g.vim_markdown_preview_github = 1
-vim.api.nvim_set_keymap("n","<LEADER>m",":MarkdownPreview<CR>",{noremap = true});
-vim.api.nvim_set_keymap("n","<LEADER>ms",":MarkdownPreviewStop<CR>",{noremap = true});
-vim.api.nvim_set_keymap("n","<LEADER>mt",":MarkdownPreviewToggle<CR>",{noremap = true});
-
+-- telescope configurations
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
@@ -143,3 +138,9 @@ require('lspconfig').ruff_lsp.setup {
     }
   }
 }
+
+-- Markdown display with Vivify
+
+vim.api.nvim_set_keymap("n","<LEADER>m","<cmd>Vivify<CR>",{noremap = true});
+
+

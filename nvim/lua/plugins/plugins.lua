@@ -63,12 +63,6 @@ return {
 --" Better substitute
 {"tpope/vim-abolish"},
 
---" Markdown preview
-{"iamcco/markdown-preview.nvim",
-  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-  ft = { "markdown" },
-  build = function() vim.fn["mkdp#util#install"]() end,
-},
 
 --" Dirdiff
 {"will133/vim-dirdiff"},
@@ -103,5 +97,7 @@ priority = 1000 },
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
 },
+
+{ "jannis-baum/vivify.vim" },
 
 }
