@@ -23,13 +23,15 @@ add-hack-fonts:
 	mkdir ~/.local/share/fonts
 	curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip
 	unzip Hack.zip -d ~/.local/share/fonts
-	rm  -y Hack.zip
+	rm  -f Hack.zip
 	fc-cache -f -v
 
-.PHONY: add-wl-clipboard
+.PHONY: add-debian-dependency
 #: add clipboard provider for wayland
-add-wl-clipboard:
+add-debian-dependency:
 	sudo apt install wl-clipboard
+	sudo apt-get install ripgrep
+	sudo apt install fd-find
 
 .PHONY: add-python-provider
 #: add pynvim python provider package and python dependency
@@ -43,6 +45,7 @@ add-python-provider:
 add-node-provider:
 	npm install -g neovim
 	yarn global add neovim
+	npm install -g tree-sitter-cli
 
 .PHONY: add-nvm
 #: add node provider
@@ -56,5 +59,5 @@ install:  add-nvim-conf
 
 .PHONY: add-dependency
 #: Install dependency
-install: add-hack-fonts add-wl-clipboard add-python-provider add-nvm
+add-dependency: add-hack-fonts add-debian-dependency add-python-provider add-nvm
 	@echo Making $@…
