@@ -1,4 +1,5 @@
 require("configurations.lazy")
+vim.cmd[[colorscheme tokyonight]]
 
 -- Quit
 vim.api.nvim_set_keymap("n","<LEADER>q",":q<CR>",{noremap = true});
@@ -37,16 +38,13 @@ vim.keymap.set("c","w!!","SudaWrite");
 vim.api.nvim_set_keymap("n","<LEADER>sw",":StripWhitespace<CR>",{noremap = true});
 
 -- Activate lualine tool bar management
-require('lualine').setup()
-
--- Activate catppuccin theme
-require('catppuccin').setup({
-  background = {
-    dark = "mocha",
-  },
-})
-vim.cmd.colorscheme "catppuccin"
-
+require('lualine').setup {
+  options = {
+    -- ... your lualine config
+    theme = 'tokyonight'
+    -- ... your lualine config
+  }
+}
 -- nvim tree configuration
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
@@ -142,5 +140,3 @@ require('lspconfig').ruff_lsp.setup {
 -- Markdown display with Vivify
 
 vim.api.nvim_set_keymap("n","<LEADER>m","<cmd>Vivify<CR>",{noremap = true});
-
-

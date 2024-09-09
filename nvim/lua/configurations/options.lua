@@ -57,3 +57,6 @@ vim.opt.directory = { prefix .. "/swap//"}
 vim.opt.undodir = { prefix .. "/undo//"}
 vim.opt.writebackup = true
 vim.opt.backupcopy = "yes"
+
+-- gitlab configuration
+vim.g.fugitive_gitlab_domains = 'https://gitlab.corp.wallix.com'

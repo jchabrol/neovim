@@ -1,5 +1,12 @@
 return {
 
+{
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {},
+},
+
 -- Typescript support
 {"leafgarland/typescript-vim"},
 {"peitalin/vim-jsx-typescript"},
@@ -18,6 +25,9 @@ return {
 
 --" Git Integration
 {"tpope/vim-fugitive"},
+{"shumphrey/fugitive-gitlab.vim",
+dependencies = {"tpope/vim-fugitive"},
+},
 
 --" Surrounding plugin (to add quotes/parens/brackets around stuff)
 {"tpope/vim-surround"},
@@ -79,11 +89,6 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" }
     },
 
--- color scheme
-{ "catppuccin/nvim",
-name = "catppuccin",
-lazy = false,
-priority = 1000 },
 
 -- nvim tree sitter
 {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
@@ -98,6 +103,7 @@ priority = 1000 },
     "neovim/nvim-lspconfig",
 },
 
+-- markdown manager
 { "jannis-baum/vivify.vim" },
 
 }
