@@ -6,9 +6,6 @@
         "settings": {
           "robot.lint.robocop.enabled":true,
           "robot.codeFormater": "robotidy",
-          "robot.pythonpath":[
-            "${workspaceFolder}/",
-          ],
         },
         "trace.server": "verbose",
         "initializationOptions": {

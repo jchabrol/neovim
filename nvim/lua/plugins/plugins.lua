@@ -1,5 +1,12 @@
 return {
 
+{
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {},
+},
+
 -- Typescript support
 {"leafgarland/typescript-vim"},
 {"peitalin/vim-jsx-typescript"},
@@ -18,6 +25,10 @@ return {
 
 --" Git Integration
 {"tpope/vim-fugitive"},
+{"shumphrey/fugitive-gitlab.vim",
+dependencies = {"tpope/vim-fugitive"},
+},
+{"sindrets/diffview.nvim"},
 
 --" Surrounding plugin (to add quotes/parens/brackets around stuff)
 {"tpope/vim-surround"},
@@ -34,38 +45,6 @@ return {
 --" Code formatting
 {"sbdchd/neoformat"},
 
--- text case
-{
-  "johmsalas/text-case.nvim",
-  dependencies = { "nvim-telescope/telescope.nvim" },
-  config = function()
-    require("textcase").setup({})
-    require("telescope").load_extension("textcase")
-  end,
-  keys = {
-    "ga", -- Default invocation prefix
-    { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
-  },
-  cmd = {
-    -- NOTE: The Subs command name can be customized via the option "substitude_command_name"
-    "Subs",
-    "TextCaseOpenTelescope",
-    "TextCaseOpenTelescopeQuickChange",
-    "TextCaseOpenTelescopeLSPChange",
-    "TextCaseStartReplacingCommand",
-  },
-  -- If you want to use the interactive feature of the `Subs` command right away, text-case.nvim
-  -- has to be loaded on startup. Otherwise, the interactive feature of the `Subs` will only be
-  -- available after the first executing of it or after a keymap of text-case.nvim has been used.
-  lazy = false,
-},
-
---" Better substitute
-{"tpope/vim-abolish"},
-
-
---" Dirdiff
-{"will133/vim-dirdiff"},
 
 -- vim better whitespace management
 {"ntpeters/vim-better-whitespace"},
@@ -79,12 +58,6 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" }
     },
 
--- color scheme
-{ "catppuccin/nvim",
-name = "catppuccin",
-lazy = false,
-priority = 1000 },
-
 -- nvim tree sitter
 {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
 
@@ -95,9 +68,48 @@ priority = 1000 },
 {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
 },
+{'neovim/nvim-lspconfig'},
 
-{ "jannis-baum/vivify.vim" },
+{'mfussenegger/nvim-lint'},
+
+---- markdown manager
+--{ "jannis-baum/vivify.vim" },
+
+{'preservim/vim-markdown', ft = 'markdown'},
+
+{
+  "iamcco/markdown-preview.nvim",
+  enabled = vim.fn.executable("npm") == 1,
+  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  build = "cd app && npm install",
+  init = function()
+    vim.g.mkdp_filetypes = { "markdown" }
+    vim.g.mkdp_auto_close = 0
+    vim.g.mkdp_command_for_global = 1
+    vim.g.mkdp_combine_preview = 1
+
+    local function load_then_exec(cmd)
+      return function()
+        vim.cmd.delcommand(cmd)
+        require("lazy").load({ plugins = { "markdown-preview.nvim" } })
+        vim.api.nvim_exec_autocmds("BufEnter", {}) -- commands appear only after BufEnter
+        vim.cmd(cmd)
+      end
+    end
+
+    ---Fixes "No command :MarkdownPreview"
+    ---https://github.com/iamcco/markdown-preview.nvim/issues/585#issuecomment-1724859362
+    for _, cmd in pairs({ "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" }) do
+      vim.api.nvim_create_user_command(cmd, load_then_exec(cmd), {})
+    end
+  end,
+}
+
+-- nvim dev container
+--{
+  --'https://codeberg.org/esensar/nvim-dev-container',
+  --dependencies = 'nvim-treesitter/nvim-treesitter'
+--},
 
 }

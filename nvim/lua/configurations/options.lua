@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("FileType",{
   command = "setlocal spell spelllang=en",
 })
 
--- Enable backup
+-- Enable backup local prefix = vim.fn.expand("~/.nvim")
 local prefix = vim.fn.expand("~/.nvim")
 vim.opt.backup = true
 vim.opt.backupdir = { prefix .. "/backup//"}
@@ -57,3 +57,6 @@ vim.opt.directory = { prefix .. "/swap//"}
 vim.opt.undodir = { prefix .. "/undo//"}
 vim.opt.writebackup = true
 vim.opt.backupcopy = "yes"
+
+-- gitlab configuration
+vim.g.fugitive_gitlab_domains = {'https://gitlab.corp.wallix.com'}
