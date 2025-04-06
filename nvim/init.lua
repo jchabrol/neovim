@@ -200,10 +200,13 @@ lspconfig.yamlls.setup{
   --filetypes = {
     --'robot','resource'
   --},
-  --root_dir = vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1]),
+  --root_dir = function(fname)
+    --return lspconfig.util.find_git_ancestor(fname)
+  --end,
   --settings = {
     --robot = {
       --python = { venv_path .. "/bin/python" },
+      --pythonpath = vim.g.robot_pythonpath
     --}
   --}
 --}
