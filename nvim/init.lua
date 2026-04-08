@@ -10,7 +10,7 @@ vim.api.nvim_set_keymap("n","<LEADER>x",":x<CR>",{noremap = true});
 vim.api.nvim_set_keymap("n","<LEADER>v","V`]",{noremap = true});
 -- Clear search highlight
 vim.api.nvim_set_keymap("n","<LEADER>,",":noh<CR>",{noremap = true});
--- Put nvim in background
+-- Put neovim in background
 vim.api.nvim_set_keymap("n","<LEADER>z","<C-z>",{noremap = true});
 
 -- Move around windows
@@ -24,11 +24,8 @@ vim.api.nvim_set_keymap("n","<LEADER>l","<C-w>l",{noremap = true});
 vim.api.nvim_set_keymap("n","<LEADER><Right>","<C-w>l",{noremap = true});
 
 -- Tab movement
-vim.api.nvim_set_keymap("n","<F2>",":tabp<CR>",{noremap = true});
-vim.api.nvim_set_keymap("n","<F3>",":tabn<CR>",{noremap = true});
-
--- Activate robotframework sytax highlighting
-vim.api.nvim_set_keymap("n","<F12>",":setf robot<CR>",{noremap = true});
+vim.api.nvim_set_keymap("n","<LEADER>é",":tabp<CR>",{noremap = true});
+vim.api.nvim_set_keymap("n","<LEADER>\"",":tabn<CR>",{noremap = true});
 
 -- Force write
 vim.keymap.set("c","w!!","SudaWrite");
