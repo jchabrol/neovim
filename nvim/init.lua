@@ -288,7 +288,7 @@ dap.adapters.robotcode = function(cb, config)
     cb({
       type = 'executable',
       command = python_exec,
-      args = { robotcode_cmd "language-server" },
+      args = { robotcode_cmd, "language-server" },
     })
   end
 end
