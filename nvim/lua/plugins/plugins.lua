@@ -100,4 +100,29 @@ priority = 1000 },
 
 { "jannis-baum/vivify.vim" },
 
+-- Configuration de lazy.nvim
+{
+  'hrsh7th/nvim-cmp',      -- Framework d'autocomplétion
+  'hrsh7th/cmp-nvim-lsp',  -- Source LSP pour nvim-cmp
+  'hrsh7th/cmp-buffer',    -- Source de complétion à partir du buffer
+  'hrsh7th/cmp-path',      -- Source de complétion à partir du chemin du système de fichiers
+  'hrsh7th/cmp-cmdline',   -- Source de complétion pour la ligne de commande
+  'hrsh7th/cmp-nvim-lsp-document-symbol',   -- Add symbol in display
+  'hrsh7th/cmp-nvim-lsp-signature-help',   -- display function help
+  'lukas-reineke/cmp-under-comparator',  -- better sort completion items that start with one or more underlines.
+  'SergioRibera/cmp-dotenv',  -- get environement variable
+  'saadparwaiz1/cmp_luasnip', -- Source de snippets pour nvim-cmp,
+  'onsails/lspkind-nvim',
+},
+
+ -- Snippets pour nvim-cmp
+{
+  'L3MON4D3/LuaSnip',
+  dependencies = { "rafamadriz/friendly-snippets" },
+  init = function()
+    require("luasnip.loaders.from_vscode").lazy_load()
+    require("luasnip.loaders.from_vscode").lazy_load({paths = "~/WAB/e2e-tests/.vscode/robotframework_documentation_template.code-snippets"})
+  end,
+},
+
 }
