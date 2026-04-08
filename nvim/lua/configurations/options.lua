@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("FileType",{
   command = "setlocal spell spelllang=en",
 })
 
--- Enable backup
+-- Enable backup local prefix = vim.fn.expand("~/.nvim")
 local prefix = vim.fn.expand("~/.nvim")
 vim.opt.backup = true
 vim.opt.backupdir = { prefix .. "/backup//"}
