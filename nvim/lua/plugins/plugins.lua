@@ -7,6 +7,30 @@ return {
   opts = {},
 },
 
+{
+  "rcarriga/nvim-notify",
+  lazy = false,
+  priority = 900,
+  keys = {
+    {
+      "<leader>nd",
+      function() require("notify").dismiss({ silent = true, pending = true }) end,
+      desc = "Dismiss notifications",
+    },
+  },
+  opts = {
+    stages = "fade",
+    timeout = 3000,
+    render = "default",
+    top_down = false,
+  },
+  config = function(_, opts)
+    local notify = require("notify")
+    notify.setup(opts)
+    vim.notify = notify
+  end,
+},
+
 ---- which-key utility to find key used
 --{
   --"folke/which-key.nvim",
