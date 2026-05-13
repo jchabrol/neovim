@@ -6,7 +6,7 @@ vim.o.softtabstop = 2
 -- File search
 vim.o.wildmenu = true
 vim.o.wildmode = 'list:longest'
-vim.o.wildignore = "node_modules/*,bower_components/*,*.swp,*.bak,*.pyc,*.class" .. vim.o.wildignore
+vim.opt.wildignore:append({ "node_modules/*", "bower_components/*", "*.swp", "*.bak", "*.pyc", "*.class" })
 vim.o.history = 1000         -- remember more commands and search history
 vim.o.undolevels = 1000      -- use many muchos levels of undo
 
@@ -18,7 +18,6 @@ vim.o.showmatch    = true
 vim.o.hidden       = true
 vim.o.visualbell   = true
 vim.o.cursorline   = true
-vim.o.ttyfast      = true
 vim.o.ruler        = true
 vim.o.ignorecase   = true
 vim.o.smartcase    = true
