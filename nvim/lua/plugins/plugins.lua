@@ -96,16 +96,15 @@ return {
 --" Best status bar ever
 {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    extensions = {'lazy', 'nvim-tree'},
-    options = { theme = 'codedark'}
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'AndreM222/copilot-lualine',
+      'zbirenbaum/copilot.lua',
+    },
 },
 
 --" Git Integration
 {"tpope/vim-fugitive"},
-{"shumphrey/fugitive-gitlab.vim",
-dependencies = {"tpope/vim-fugitive"},
-},
 {"sindrets/diffview.nvim"},
 
 --" Surrounding plugin (to add quotes/parens/brackets around stuff)
@@ -149,20 +148,18 @@ dependencies = {"tpope/vim-fugitive"},
 
 {'neovim/nvim-lspconfig'},
 
--- Configuration de lazy.nvim
-{
-  'hrsh7th/nvim-cmp',      -- Framework d'autocomplétion
-  'hrsh7th/cmp-nvim-lsp',  -- Source LSP pour nvim-cmp
-  'hrsh7th/cmp-buffer',    -- Source de complétion à partir du buffer
-  'hrsh7th/cmp-path',      -- Source de complétion à partir du chemin du système de fichiers
-  'hrsh7th/cmp-cmdline',   -- Source de complétion pour la ligne de commande
-  'hrsh7th/cmp-nvim-lsp-document-symbol',   -- Add symbol in display
-  'hrsh7th/cmp-nvim-lsp-signature-help',   -- display function help
-  'lukas-reineke/cmp-under-comparator',  -- better sort completion items that start with one or more underlines.
-  'SergioRibera/cmp-dotenv',  -- get environement variable
-  'saadparwaiz1/cmp_luasnip', -- Source de snippets pour nvim-cmp,
-  'onsails/lspkind-nvim',
-},
+-- nvim-cmp et ses sources
+{ 'hrsh7th/nvim-cmp' },                              -- Framework d'autocomplétion
+{ 'hrsh7th/cmp-nvim-lsp' },                          -- Source LSP pour nvim-cmp
+{ 'hrsh7th/cmp-buffer' },                            -- Source de complétion à partir du buffer
+{ 'hrsh7th/cmp-path' },                              -- Source de complétion à partir du chemin du système de fichiers
+{ 'hrsh7th/cmp-cmdline' },                           -- Source de complétion pour la ligne de commande
+{ 'hrsh7th/cmp-nvim-lsp-document-symbol' },          -- Add symbol in display
+{ 'hrsh7th/cmp-nvim-lsp-signature-help' },           -- display function help
+{ 'lukas-reineke/cmp-under-comparator' },            -- better sort completion items that start with one or more underlines.
+{ 'SergioRibera/cmp-dotenv' },                       -- get environement variable
+{ 'saadparwaiz1/cmp_luasnip' },                      -- Source de snippets pour nvim-cmp
+{ 'onsails/lspkind-nvim' },
 
  -- Snippets pour nvim-cmp
 {
@@ -228,5 +225,30 @@ dependencies = {"tpope/vim-fugitive"},
       },
     })
   end,
+},
+{ 'AndreM222/copilot-lualine' },
+{
+  "coder/claudecode.nvim",
+  dependencies = { "folke/snacks.nvim" },
+  config = true,
+  keys = {
+    { "<leader>a", nil, desc = "AI/Claude Code" },
+    { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+    { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+    { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+    { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+    { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+    { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+    { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+    {
+      "<leader>as",
+      "<cmd>ClaudeCodeTreeAdd<cr>",
+      desc = "Add file",
+      ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+    },
+    -- Diff management
+    { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+    { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+  },
 },
 }

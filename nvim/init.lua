@@ -53,10 +53,43 @@ require('lualine').setup {
       }
     },
     lualine_c = {"windows"},
-    lualine_x = {},
+    lualine_x = { 'copilot' ,'encoding', 'fileformat', 'filetype' },
     lualine_y = {},
     lualine_z = {"lsp_status"}
-  }
+  },
+  sections = {
+    lualine_x = {
+	{
+        'copilot',
+            -- Default values
+            symbols = {
+                status = {
+                    icons = {
+                        enabled = " ",
+                        sleep = " ",   -- auto-trigger disabled
+                        disabled = " ",
+                        warning = " ",
+                        unknown = " "
+                    },
+                    hl = {
+                        enabled = "#50FA7B",
+                        sleep = "#AEB7D0",
+                        disabled = "#6272A4",
+                        warning = "#FFB86C",
+                        unknown = "#FF5555"
+                    }
+                },
+                spinners = "dots", -- has some premade spinners
+                spinner_color = "#6272A4"
+            },
+            show_colors = false,
+            show_loading = true
+        },
+        'encoding',
+        'fileformat',
+        'filetype'
+    }
+    }
 }
 
 -- Configuration de nvim-cmp
@@ -264,21 +297,54 @@ vim.lsp.enable('biome')
 vim.lsp.enable('dockerls')
 
 -- === RobotCode (venv auto) ===
-local venv_path = os.getenv("VIRTUAL_ENV") or (vim.fn.getcwd() .. "/.venv")
-local robotcode_cmd = venv_path and (venv_path .. "/bin/robotcode") or "robotcode"
-local python_exec = venv_path and (venv_path .. "/bin/python") or "python"
-local site_packages = venv_path and (venv_path .. "/lib/python3/site-packages") or nil
+-- robotcode n'est pas distribué par mason-lspconfig : on l'attend dans le venv
+-- du projet (`pip install robotcode`) ou sur le PATH système.
+local function detect_venv()
+  local env = os.getenv("VIRTUAL_ENV")
+  if env and vim.uv.fs_stat(env) then
+    return env
+  end
+  local local_venv = vim.fn.getcwd() .. "/.venv"
+  if vim.uv.fs_stat(local_venv) then
+    return local_venv
+  end
+  return nil
+end
+
+local function find_site_packages(venv)
+  if not venv then return nil end
+  local matches = vim.fn.glob(venv .. "/lib/python*/site-packages", false, true)
+  return matches[1]
+end
+
+local venv_path = detect_venv()
+local robotcode_cmd = (venv_path and vim.fn.executable(venv_path .. "/bin/robotcode") == 1)
+    and (venv_path .. "/bin/robotcode")
+    or "robotcode"
+local python_exec = (venv_path and vim.fn.executable(venv_path .. "/bin/python") == 1)
+    and (venv_path .. "/bin/python")
+    or "python3"
+local site_packages = find_site_packages(venv_path)
 
 vim.lsp.config("robotcode", {
   cmd = { robotcode_cmd, "language-server" },
   settings = {
     robot = {
-      pythonpath = { site_packages },
+      pythonpath = site_packages and { site_packages } or {},
       python = { executable = python_exec },
     },
   },
 })
-vim.lsp.enable("robotcode")
+if vim.fn.executable(robotcode_cmd) == 1 then
+  vim.lsp.enable("robotcode")
+else
+  vim.schedule(function()
+    vim.notify(
+      "robotcode LSP introuvable (cherché : " .. robotcode_cmd .. "). Installe-le avec `pip install robotcode`.",
+      vim.log.levels.WARN
+    )
+  end)
+end
 
 local dap = require('dap')
 
@@ -354,6 +420,4 @@ vim.api.nvim_set_keymap("n","<LEADER>mt","<cmd>MarkdownPreviewToggle<CR>",{norem
 
 ---- nvim dev container launch
 require("devcontainer").setup{}
-
-
 
