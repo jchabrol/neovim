@@ -1,4 +1,4 @@
-local ensure_installed = { "robot", "typescript", "javascript", "jsonc" }
+local ensure_installed = { "robot", "typescript", "javascript", "lua" }
 
 require("nvim-treesitter").install(ensure_installed)
 
