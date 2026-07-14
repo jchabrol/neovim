@@ -15,15 +15,11 @@ return {
       local dap = require("dap")
       local venv = require("configurations.venv").info()
 
-      dap.adapters.robotcode = function(cb, config)
-        if config.request == "launch" then
-          cb({
-            type = "executable",
-            command = venv.python_exec,
-            args = { venv.robotcode_cmd, "language-server" },
-          })
-        end
-      end
+      dap.adapters.robotcode = {
+        type = "executable",
+        command = venv.robotcode_cmd,
+        args = { "debug-launch", "--stdio" },
+      }
 
       dap.configurations.robot = {
         {
@@ -32,7 +28,6 @@ return {
           name = "Run current robot file",
           cwd = vim.fn.getcwd(),
           target = "${file}",
-          pythonPath = venv.python_exec,
           args = {},
           console = "integratedTerminal",
         },
