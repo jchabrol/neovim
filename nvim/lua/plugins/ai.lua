@@ -1,24 +1,5 @@
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      panel = { enabled = false },
-      suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        keymap = {
-          accept = "<C-l>",
-          next = "<C-n>",
-          prev = "<C-p>",
-          dismiss = "<C-q>",
-        },
-      },
-    },
-  },
-
-  {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
     config = true,

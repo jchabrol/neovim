@@ -40,8 +40,6 @@ return {
     event = "VeryLazy",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-      "AndreM222/copilot-lualine",
-      "zbirenbaum/copilot.lua",
     },
     opts = {
       options = {
@@ -51,37 +49,12 @@ return {
         lualine_a = { "tabs" },
         lualine_b = { { "filename", path = 1 } },
         lualine_c = { "windows" },
-        lualine_x = { "copilot", "encoding", "fileformat", "filetype" },
+        lualine_x = { "encoding", "fileformat", "filetype" },
         lualine_y = {},
         lualine_z = { "lsp_status" },
       },
       sections = {
         lualine_x = {
-          {
-            "copilot",
-            symbols = {
-              status = {
-                icons = {
-                  enabled = " ",
-                  sleep = " ",
-                  disabled = " ",
-                  warning = " ",
-                  unknown = " ",
-                },
-                hl = {
-                  enabled = "#50FA7B",
-                  sleep = "#AEB7D0",
-                  disabled = "#6272A4",
-                  warning = "#FFB86C",
-                  unknown = "#FF5555",
-                },
-              },
-              spinners = "dots",
-              spinner_color = "#6272A4",
-            },
-            show_colors = false,
-            show_loading = true,
-          },
           "encoding",
           "fileformat",
           "filetype",
@@ -89,6 +62,4 @@ return {
       },
     },
   },
-
-  { "AndreM222/copilot-lualine", lazy = true },
 }
